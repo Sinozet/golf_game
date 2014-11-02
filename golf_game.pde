@@ -4,6 +4,8 @@ import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 
 Box2DProcessing box2d;
+Ball ball;
+Map  map;
 
 void setup() {
   size(640,360);
