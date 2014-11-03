@@ -41,6 +41,7 @@ class Ball {
     fd.density = 1.0;
 
     body.createFixture(fd);
+    body.setUserData(this);
   }
 
   void draw() {
@@ -61,6 +62,10 @@ class Ball {
 
   Vec2 getPosition() {
     return box2d.getBodyPixelCoord(body);
+  }
+
+  void killBody() {
+    box2d.destroyBody(body);
   }
 
   JSONObject toJSON() {
