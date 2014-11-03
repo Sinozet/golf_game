@@ -23,7 +23,17 @@ void setup() {
   box2d.setGravity(0, -10);
 
   createBall();
-  level_map = new Map();
+  ArrayList<Wall> walls = new ArrayList<Wall>();
+  ArrayList<Vec2> wall_vertices  = new ArrayList<Vec2>();
+  wall_vertices.add(new Vec2(0, height/2+50));
+  wall_vertices.add(new Vec2(width/2, height/2+50));
+  wall_vertices.add(new Vec2(width, height/2));
+  wall_vertices.add(new Vec2(width, height));
+  wall_vertices.add(new Vec2(0, height));
+  Wall wall = new Wall(wall_vertices);
+  walls.add(wall);
+
+  level_map = new Map(walls);
 }
 
 void draw() {
@@ -49,7 +59,9 @@ void mousePressed() {
 
 void mouseReleased() {
   release = new Vec2(mouseX, mouseY);
-  ball.body.setLinearVelocity(press.sub(release));
+  Vec2 velocity = press.sub(release);
+  velocity.y = -velocity.y;
+  ball.body.setLinearVelocity(velocity);
   press = null;
 }
 
