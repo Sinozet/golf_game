@@ -5,6 +5,19 @@ class Ball {
   int c;
 
   Ball(float _x, float _y, float _r) {
+    init(_x, _y, _r);
+  }
+
+  Ball(JSONObject json) {
+    init(json.getFloat("x"), json.getFloat("y"), json.getFloat("r"));
+  }
+
+  Ball(Ball b) {
+    Vec2 b_pos = b.getPosition();
+    init(b_pos.x, b_pos.y, b.r);
+  }
+
+  void init(float _x, float _y, float _r) {
     r = _r;
     c = 150;
 
@@ -48,5 +61,13 @@ class Ball {
 
   Vec2 getPosition() {
     return box2d.getBodyPixelCoord(body);
+  }
+
+  JSONObject toJSON() {
+    JSONObject json = new JSONObject();
+    json.setFloat("x", getPosition().x);
+    json.setFloat("y", getPosition().y);
+    json.setFloat("r", r);
+    return json;
   }
 }

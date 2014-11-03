@@ -5,6 +5,20 @@ class Wall {
   int c;
 
   Wall(ArrayList<Vec2> _vertices) {
+    init(_vertices);
+  }
+
+  Wall(JSONObject json) {
+    ArrayList<Vec2> _vertices = new ArrayList<Vec2>();
+    JSONArray json_vertices = json.getJSONArray("vertices");
+    for (int i = 0; i < json_vertices.size(); i++) {
+      JSONObject json_v = json_vertices.getJSONObject(i); 
+      _vertices.add(new Vec2(json_v.getFloat("x"), json_v.getFloat("y")));
+    }
+    init(_vertices);
+  }
+
+  void init(ArrayList<Vec2> _vertices) {
     vertices = _vertices;
     c = 150;
 
@@ -43,5 +57,20 @@ class Wall {
       vertex(v.x,v.y);
     }
     endShape();
+  }
+
+  JSONObject toJSON() {
+    JSONObject json = new JSONObject();
+    JSONArray json_vertices = new JSONArray();
+    for (int i = 0; i < vertices.size(); i++) {
+      Vec2 v = vertices.get(i);
+      JSONObject json_v = new JSONObject();
+      json_v.setFloat("x", v.x);
+      json_v.setFloat("y", v.y);
+      json_vertices.setJSONObject(i, json_v);
+    }
+
+    json.setJSONArray("vertices", json_vertices);
+    return json;
   }
 }
